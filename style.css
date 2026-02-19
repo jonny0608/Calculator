@@ -1,0 +1,15 @@
+.calc-display {
+    background: #0b1220;
+    color:#e9eefc;
+    border: 1px solid rgba(255, 255, 0,12);
+}
+.calc-history {
+    min-height: 1.2rem;
+    opacity: 0.75;
+    font-family: ul-monospace, menlo Consolas, "Courier New", monospace;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.calc-main {
+    font-size: 1.5rem;
+}
