@@ -12,4 +12,12 @@
 }
 .calc-main {
     font-size: 1.5rem;
+    line-height: 1.2;
+    font-family: ui-monospace, menlo Consolas, "Courier New", monospace;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.calc-status {
+    min-height: 1.2rem;
+    opacity: 0.85;
 }
