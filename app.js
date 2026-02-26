@@ -26,7 +26,7 @@ function setStatus(message) {
 function showSymbol(op) {
   if (op === '*') return 'X';
   if (op === '/') return '÷';
-  if (op === '-') return '&#x2212';
+  if (op === '-') return '−';
   return op
 }
 
@@ -35,13 +35,36 @@ function updateScreen() {
   const display = document.getElementById('displayLine')
   const history = document.getElementById('historyLine')
   const status = document.getElementById('statusLine')
-   display.textContent = typedNumberText
+
+    if (typedNumberText !== '') {
+      display.textContent = typedNumberText
+    }
+else {
+  display.textContent = '0'
+}
+  display.textContent = typedNumberText
+
+  if (historyParts.length === 0) {
+    history.textContent = ''
+  }
+  if (historyParts.length === 1) {
+    history.textContent = historyParts[0]
+  }
+  if (historyParts.length === 2) {
+    history.textContent = historyParts[0] + ' ' + showSymbol(historyParts[1])
+  }
+  if (historyParts.length === 3) {
+    history.textContent = historyParts[0] + ' ' + showSymbol(historyParts[1]) + ' ' + historyParts[2]
+  }
+  
+  if (status.textContent === '') status.textContent = 'ready'
+
 }
 
 function pressNumber(digit) {
   setStatus('')
   if (typedNumberText === '0') {
-    typednumberText = digit
+    typedNumberText = digit;
   }
   else {
     typedNumberText = typedNumberText + digit
@@ -53,17 +76,35 @@ function pressNumber(digit) {
 function pressOperator(op) {
 
   setStatus('')
-
   if (typedNumberText === '' && storedNumber === null) {
     setStatus('Enter a number first')
+    updateScreen()
   }
 
-  if (storedNumber === null){
-    storedNumber = Number (typedNumberText)
+  if (storedNumber === null) {
+    storedNumber = Number(typedNumberText)
     currentOperator = op
-    historyParts = [string(storedNumber), currentOperator]
+    historyParts = [String(storedNumber), currentOperator]
     typedNumberText = ''
     updateScreen();
-  
+
   }
+
+if (typedNumberText !== ''){
+  const secondNumber = typedNumberText
+  if (currentOperator === '/' && Number(secondNumber) === 0) {
+    setStatus('You Honestly are actually a Dumb-dumb')
+}
+
+
+}
+
+function clearAll () {
+  typedNumberText = '';
+  storedNumber = null;
+  currentOperator = '';
+  historyParts = [];
+  
+  setStatus('cleared')
+  updateScreen()
 }
