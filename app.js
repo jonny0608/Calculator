@@ -36,12 +36,12 @@ function updateScreen() {
   const history = document.getElementById('historyLine')
   const status = document.getElementById('statusLine')
 
-    if (typedNumberText !== '') {
-      display.textContent = typedNumberText
-    }
-else {
-  display.textContent = '0'
-}
+  if (typedNumberText !== '') {
+    display.textContent = typedNumberText
+  }
+  else {
+    display.textContent = '0'
+  }
   display.textContent = typedNumberText
 
   if (historyParts.length === 0) {
@@ -56,7 +56,7 @@ else {
   if (historyParts.length === 3) {
     history.textContent = historyParts[0] + ' ' + showSymbol(historyParts[1]) + ' ' + historyParts[2]
   }
-  
+
   if (status.textContent === '') status.textContent = 'ready'
 
 }
@@ -81,30 +81,82 @@ function pressOperator(op) {
     updateScreen()
   }
 
-  if (storedNumber === null) {
-    storedNumber = Number(typedNumberText)
-    currentOperator = op
-    historyParts = [String(storedNumber), currentOperator]
-    typedNumberText = ''
-    updateScreen();
 
-  }
+if (storedNumber === null) {
+  storedNumber = Number(typedNumberText)
+  currentOperator = op
+  historyParts = [String(storedNumber), currentOperator]
+  typedNumberText = ''
+  updateScreen();
 
-if (typedNumberText !== ''){
+}
+
+if (typedNumberText !== '') {
   const secondNumber = typedNumberText
   if (currentOperator === '/' && Number(secondNumber) === 0) {
     setStatus('You Honestly are actually a Dumb-dumb')
+  }
+}
+let result = null
+
+  if (currentOperator === '+') {
+    result = storedNumber + secondNumber
+  }
+  else if (currentOperator === '/') {
+    result = storedNumber / secondNumber
+  }
+  else if (currentOperator === '-') {
+    result = storedNumber - secondNumber
+  }
+  else if (currentOperator === '*') {
+    result = storedNumber * secondNumber
+  }
+  storedNumber = result
+  currentOperator = op
 }
 
-
-}
-
-function clearAll () {
+function clearAll() {
   typedNumberText = '';
   storedNumber = null;
   currentOperator = '';
   historyParts = [];
-  
+
   setStatus('cleared')
   updateScreen()
+}
+
+
+function calculate() {
+  setStatus('')
+  if (storedNumber === null || currentOperator === '' || typedNumberText === '') {
+    setStatus(' You have an incomplete expression')
+    updateScreen()
+    return
+  }
+
+  const secondNumber = Number(typedNumberText)
+
+  let result = null
+
+  if (currentOperator === '+') {
+    result = storedNumber + secondNumber
+  }
+  else if (currentOperator === '/') {
+    result = storedNumber / secondNumber
+  }
+  else if (currentOperator === '-') {
+    result = storedNumber - secondNumber
+  }
+  else if (currentOperator === '*') {
+    result = storedNumber * secondNumber
+  }
+
+
+  storedNumber = result
+  currentOperator = '';
+  typedNumberText = '';
+
+
+  setStatus('Done')
+  updateScreen
 }
